@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  web:
+    image: rv369/project_2025.01.12_backend:latest
+    command: uvicorn src.main:app --host 0.0.0.0 --reload
+    ports:
+      - "8000:8000"
+    restart: always
