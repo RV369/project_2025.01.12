@@ -1,5 +1,3 @@
-import uuid
-
 from transformers import pipeline
 
 clf = pipeline(
@@ -8,28 +6,17 @@ clf = pipeline(
 )
 
 
-def data(text):
+def data_pipline(text):
     data_rezult = []
-    for row in text.split('.'):
-        if row != '':
-            data = clf(row)
-            for m in data:
-                m.update({f'{uuid.uuid4()}': f'{row}'})
-            data_rezult.append(data)
-        else:
-            continue
-    return data_rezult
-
-
-def data_list(text_list):
-    data_rezult = []
-    for sentence in text_list:
-        for row in sentence.split('.'):
-            if row != '':
-                data = clf(row)
-                for m in data:
-                    m.update({f'{uuid.uuid4()}': f'{row}'})
-                data_rezult.append(data)
+    if type(text) is str:
+        for sentence in text.split('.'):
+            if sentence != '':
+                rezult = clf(sentence)
+                rezult[0].update({'string': f'{sentence}'})
+                data_rezult.append(rezult)
             else:
                 continue
+    else:
+        for i in text:
+            data_rezult.append(data_pipline(i))
     return data_rezult
